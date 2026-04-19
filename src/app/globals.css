@@ -1,1 +1,9 @@
 @import "tailwindcss";
+@import "@heroui/styles";
+
+@plugin "@iconify/tailwind4";
+
+@theme inline {
+    --font-sans: var(--font-inter);
+    --font-heading: var(--font-poppins);
+}
