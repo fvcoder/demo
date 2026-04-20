@@ -10,6 +10,7 @@
   "dependencies": {
     "@heroui/react": "^3.0.3",
     "@heroui/styles": "^3.0.3",
+    "@serwist/next": "^9.5.7",
     "next": "16.2.4",
     "react": "19.2.5",
     "react-dom": "19.2.5"
@@ -17,14 +18,17 @@
   "devDependencies": {
     "@iconify-json/fluent": "^1.2.45",
     "@iconify/tailwind4": "^1.2.3",
+    "@serwist/turbopack": "^9.5.7",
     "@tailwindcss/postcss": "4.2.2",
     "@types/node": "25.6.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "babel-plugin-react-compiler": "1.0.0",
+    "esbuild": "^0.28.0",
     "eslint": "10.2.1",
     "eslint-config-codely": "4.5.0",
     "eslint-plugin-better-tailwindcss": "4.4.1",
+    "serwist": "^9.5.7",
     "tailwindcss": "4.2.2",
     "typescript": "6.0.3"
   }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 
-import { ThemeProvider } from "@/provider/theme";
+import { Provider } from "./provider";
 
 import "./globals.css";
 
@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.variable} ${poppins.variable} bg-background font-sans text-foreground antialiased`}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );
