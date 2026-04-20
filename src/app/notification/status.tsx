@@ -9,7 +9,9 @@ export function Status() {
 
   useEffect(() => {
     return sw.subscribe((event) => {
-      console.log("Received event from service worker:", event);
+      alert(
+        event.type === "ping" ? event.ping : `Received event of type ${event.type} with data: ${JSON.stringify(event)}`,
+      );
     });
   }, []);
 
