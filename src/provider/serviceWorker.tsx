@@ -39,6 +39,9 @@ export function ServiceWorkerProvider({ children }: { children: React.ReactNode 
   }
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.ready
         .then((registration) => {
