@@ -8,6 +8,7 @@ interface ServiceWorkerCtx {
   sw?: ServiceWorkerRegistration;
   sendCommand: (command: ServiceWorkerCommand) => void;
   subscribe: (cb: (event: ServiceWorkerEvent) => void) => () => void;
+  subscribeCommands: (cb: (event: ServiceWorkerCommand) => void) => () => void;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -16,6 +17,7 @@ export const serviceWorkerCtx = createContext<ServiceWorkerCtx>(null!);
 export function ServiceWorkerProvider({ children }: { children: React.ReactNode }) {
   const [sw, setSw] = useState<ServiceWorkerRegistration | undefined>();
   const listeners = useRef(new Set<(event: ServiceWorkerEvent) => void>());
+  const commandListeners = useRef(new Set<(event: ServiceWorkerCommand) => void>());
 
   function onMessage(e: MessageEvent<ServiceWorkerEvent>) {
     listeners.current.forEach((cb) => {
@@ -31,11 +33,22 @@ export function ServiceWorkerProvider({ children }: { children: React.ReactNode 
     };
   };
 
+  const subscribeCommands = (cb: (event: ServiceWorkerCommand) => void) => {
+    commandListeners.current.add(cb);
+
+    return () => {
+      commandListeners.current.delete(cb);
+    };
+  };
+
   function sendCommand(command: ServiceWorkerCommand) {
     if (!sw || !sw.active) {
       return;
     }
     sw.active.postMessage(command);
+    commandListeners.current.forEach((cb) => {
+      cb(command);
+    });
   }
 
   useEffect(() => {
@@ -59,5 +72,9 @@ export function ServiceWorkerProvider({ children }: { children: React.ReactNode 
     }
   }, []);
 
-  return <serviceWorkerCtx.Provider value={{ sw, sendCommand, subscribe }}>{children}</serviceWorkerCtx.Provider>;
+  return (
+    <serviceWorkerCtx.Provider value={{ sw, sendCommand, subscribe, subscribeCommands }}>
+      {children}
+    </serviceWorkerCtx.Provider>
+  );
 }

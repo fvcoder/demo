@@ -1,24 +1,25 @@
 "use client";
-import { Button } from "@heroui/react";
-import { useEffect } from "react";
+import { Card } from "@heroui/react";
 
 import { useSW } from "@/hooks/useSW";
 
 export function Status() {
-  const sw = useSW();
-
-  useEffect(() => {
-    return sw.subscribe((event) => {
-      alert(
-        event.type === "ping" ? event.ping : `Received event of type ${event.type} with data: ${JSON.stringify(event)}`,
-      );
-    });
-  }, []);
+  const { sw } = useSW();
 
   return (
-    <div>
-      <p>asd {sw.sw?.active ? "Active" : "Inactive"}</p>
-      <Button onClick={() => sw.sendCommand({ type: "ping" })}> Send ping</Button>
-    </div>
+    <Card>
+      <Card.Header>
+        <Card.Title>Estado del Service Worker</Card.Title>
+        <Card.Description>
+          {sw ? "Service Worker está registrado." : "Service Worker no está registrado."}
+        </Card.Description>
+      </Card.Header>
+      <Card.Content>
+        <div>
+          <strong>Estado:</strong>
+          <p>{sw?.active?.state}</p>
+        </div>
+      </Card.Content>
+    </Card>
   );
 }
