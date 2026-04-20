@@ -9,8 +9,8 @@ export interface ServiceWorkerPushEvent {
   };
 }
 export interface ServiceWorkerPingEvent {
-  type: "ping";
-  ping: string;
+  type: "pong";
+  pong: string;
 }
 
 export type ServiceWorkerEvent = ServiceWorkerPushEvent | ServiceWorkerPingEvent;
@@ -20,4 +20,9 @@ export interface ServiceWorkerPingCommand {
   type: "ping";
 }
 
-export type ServiceWorkerCommand = ServiceWorkerPingCommand;
+export interface ServiceWorkerPushCommand {
+  type: "push";
+  push: PushNotification;
+}
+
+export type ServiceWorkerCommand = ServiceWorkerPingCommand | ServiceWorkerPushCommand;

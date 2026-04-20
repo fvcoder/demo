@@ -1,9 +1,10 @@
 import { Metadata } from "next";
 
 import { HeaderTitle } from "@/components/header";
+import { ServiceWorkerEventsCard } from "@/components/serviceWorkerEvents";
 import { Container } from "@/components/ui/container";
 
-import { Events } from "./events";
+import { Commands } from "./commands";
 import { Status } from "./status";
 
 export const metadata: Metadata = {
@@ -16,8 +17,11 @@ export default function NotificationPage() {
     <Container className="space-y-4 py-4">
       <HeaderTitle title="Notificaciones Push" subtitle="Con service workers" />
       <div className="grid grid-cols-2 gap-4">
-        <Status />
-        <Events />
+        <div className="space-y-4">
+          <Status />
+          <Commands />
+        </div>
+        <ServiceWorkerEventsCard />
       </div>
     </Container>
   );

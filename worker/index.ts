@@ -81,12 +81,34 @@ self.addEventListener("message", async (event) => {
     includeUncontrolled: true,
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  if (data.type === "push") {
+    if (clients.length > 0) {
+      clients.forEach((client) => {
+        client.postMessage({
+          type: "push",
+          push: {
+            data: data.push,
+            isFocused: client.visibilityState === "visible",
+          },
+        } satisfies ServiceWorkerEvent);
+      });
+    }
+
+    if (clients.some((client) => client.visibilityState === "visible")) {
+      return;
+    }
+    await self.registration.showNotification(data.push.title, {
+      body: data.push.body,
+      icon: data.push.icon,
+      silent: false,
+    });
+  }
+
   if (data.type === "ping") {
     clients.forEach((client) => {
       client.postMessage({
-        type: "ping",
-        ping: `Pong from service worker at ${new Date().toISOString()}`,
+        type: "pong",
+        pong: `Pong from service worker at ${new Date().toISOString()}`,
       } satisfies ServiceWorkerEvent);
     });
   }
